@@ -37,9 +37,10 @@ fn read_file_bytes(file_name: &str) -> Result<Memory, ProgramError>
 
 fn parse_plaintext_byte(plaintext_byte: &[u8]) -> u8
 {
+	let byte_is_ascii_0_or_1 = |plaintext_byte: &&u8| byte_to_bit(**plaintext_byte).is_some();
 	plaintext_byte
 		.iter()
-		.filter(|byte| byte_to_bit(**byte).is_some())
+		.filter(byte_is_ascii_0_or_1)
 		.rev()
 		.enumerate()
 		.fold(0, |accumulator, index_byte| {
